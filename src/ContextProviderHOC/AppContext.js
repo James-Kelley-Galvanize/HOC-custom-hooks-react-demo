@@ -1,8 +1,10 @@
 import { createContext, useEffect } from "react";
-
 import useBetterState from "../CustomHooks";
 
 export const AppContext = createContext();
+
+const url = `52.26.193.201:3000`;
+
 
 function AppProvider({ children }) {
   const [state, setState] = useBetterState({
@@ -20,7 +22,7 @@ function AppProvider({ children }) {
   // get a product list on load
   useEffect(() => {
     async function fetchProductList() {
-      const res = await fetch(`http://18.224.200.47/products/list`);
+      const res = await fetch(`http://${url}/products/list`);
       const data = await getJSON(res);
       setState({ productList: data });
     }
@@ -32,13 +34,13 @@ function AppProvider({ children }) {
     const { activeProduct } = state;
     async function fetchActiveProductInfo() {
       const styleData = await fetch(
-        `http://18.224.200.47/products/${activeProduct.id}/styles`
+        `http://${url}/products/${activeProduct.id}/styles`
       );
       const styleJson = await getJSON(styleData);
       const photoUrl = await styleJson.results[0].photos[0].thumbnail_url;
 
       const detailData = await fetch(
-        `http://18.224.200.47/products/${activeProduct.id}`
+        `http://${url}/products/${activeProduct.id}`
       );
       const detailJson = await getJSON(detailData);
 
